@@ -1,0 +1,38 @@
+name: Cluster Pipeline - workflow_dispatch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+
+      - name: Terraform Init
+        working-directory: cluster-terraform
+        run: terraform init
+
+      - name: Terraform Validate
+        working-directory: cluster-terraform
+        run: terraform validate
+
+      - name: Terraform Apply
+        working-directory: cluster-terraform
+        run: terraform apply -auto-approve -input=false
+        
+      - name: Terraform Outputs
+        working-directory: cluster-terraform
+        run: terraform output
