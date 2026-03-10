@@ -54,6 +54,7 @@ resource "kubernetes_config_map" "app_config" {
     name = "${var.app_name}-config"
   }
   data = {
+    AUTH_API_URL = "${data.terraform_remote_state.lambda.api_gateway_url}"
     BUCKET_ACCESS_KEY_ID = "${var.bucket_access_key_id}"
     BUCKET_SECRET_KEY    = "${var.bucket_secret_key}"
     ASPNETCORE_ENVIRONMENT = "Development"
