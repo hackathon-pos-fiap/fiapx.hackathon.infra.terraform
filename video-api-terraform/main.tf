@@ -54,7 +54,7 @@ resource "kubernetes_config_map" "app_config" {
     name = "${var.app_name}-config"
   }
   data = {
-    AUTH_API_URL = "${data.terraform_remote_state.lambda.api_gateway_url}"
+    AUTH_API_URL = "${data.terraform_remote_state.lambda.outputs.api_gateway_url}"
     BUCKET_ACCESS_KEY_ID = "${var.bucket_access_key_id}"
     BUCKET_SECRET_KEY    = "${var.bucket_secret_key}"
     ASPNETCORE_ENVIRONMENT = "Development"
@@ -70,7 +70,7 @@ resource "kubernetes_secret" "app_secret" {
     StringConnectionMongo = format(
         "mongodb+srv://%s:%s@%s",
         data.terraform_remote_state.database.outputs.mongodb_user,
-        var.fastfood_user_password,
+        var.fiapx_user_password,
         split(",", replace(
           replace(
             data.terraform_remote_state.database.outputs.mongodb_connection_string,
