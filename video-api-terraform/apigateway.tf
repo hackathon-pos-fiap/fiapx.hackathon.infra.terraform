@@ -39,3 +39,11 @@ resource "aws_apigatewayv2_route" "autorize_set_status_video_route" {
   authorization_type = "JWT"
   authorizer_id      = data.terraform_remote_state.lambda.outputs.cognito_authorizer_id
 }
+
+resource "aws_apigatewayv2_route" "autorize_get_filename_video_route" {
+  api_id             = data.terraform_remote_state.lambda.outputs.api_gateway_auth_api_id
+  route_key          = "ANY /video/filename/{filename}"
+  target             = "integrations/${aws_apigatewayv2_integration.eks_api_integration.id}"
+  authorization_type = "JWT"
+  authorizer_id      = data.terraform_remote_state.lambda.outputs.cognito_authorizer_id
+}
