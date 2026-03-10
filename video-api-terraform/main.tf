@@ -70,7 +70,7 @@ resource "kubernetes_secret" "app_secret" {
     StringConnectionMongo = format(
         "mongodb+srv://%s:%s@%s",
         data.terraform_remote_state.database.outputs.mongodb_user,
-        var.fastfood_user_password,
+        var.fiapx_user_password,
         split(",", replace(
           replace(
             data.terraform_remote_state.database.outputs.mongodb_connection_string,
