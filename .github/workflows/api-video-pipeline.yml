@@ -34,16 +34,13 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        if: github.event_name == 'pull_request'
         working-directory: video-api-terraform
         run: terraform plan -input=false
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         working-directory: video-api-terraform
         run: terraform apply -auto-approve -input=false
         
       - name: Terraform Outputs
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         working-directory: video-api-terraform
         run: terraform output
