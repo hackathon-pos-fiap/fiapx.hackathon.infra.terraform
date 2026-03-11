@@ -12,6 +12,7 @@ jobs:
       TF_VAR_fiapx_user_password: ${{ secrets.FIAPX_HACKATHON_USER_PASSWORD }}
       TF_VAR_bucket_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
       TF_VAR_bucket_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
+      TF_VAR_docker_image: ${{ github.event.client_payload.image }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
