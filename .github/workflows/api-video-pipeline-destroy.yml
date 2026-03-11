@@ -11,7 +11,7 @@ jobs:
       TF_VAR_fiapx_user_password: ${{ secrets.FIAPX_HACKATHON_USER_PASSWORD }}
       TF_VAR_bucket_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
       TF_VAR_bucket_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
-      TF_VAR_docker_image: montenegroforstude/fiap-fastfood-api:latest
+      TF_VAR_docker_image: montenegroforstude/fiapx-hackathon:latest
 
     steps:
       - name: Checkout
