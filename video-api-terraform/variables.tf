@@ -10,7 +10,7 @@ variable "cluster_name" {
 
 variable "app_name" {
   type    = string
-  default = "fiapx.hackathon.video.manager.api"
+  default = "fiapx-hackathon-video-manager-api"
 }
 
 variable "docker_image" {
