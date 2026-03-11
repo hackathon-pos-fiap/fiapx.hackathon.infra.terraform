@@ -1,4 +1,4 @@
-output "service_endpoint_payment" {
+output "service_endpoint_video" {
   description = "Endpoint público do LoadBalancer"
   value = (
     try(kubernetes_service.app.status[0].load_balancer[0].ingress[0].hostname, null) != null ?
