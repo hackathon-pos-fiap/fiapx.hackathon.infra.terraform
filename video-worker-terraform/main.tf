@@ -59,7 +59,7 @@ resource "kubernetes_config_map" "app_config" {
     BUCKET_SECRET_KEY    = "${var.bucket_secret_key}"
     ASPNETCORE_ENVIRONMENT = "Development"
     queueUrl = "${data.terraform_remote_state.database.outputs.sqs_worker_queue_url}"
-    bucketName = "fiapx-video-worker-lgrando"
+    BucketName = "fiapx-video-worker-lgrando"
     SES_SOURCE_EMAIL = "zeliasgl@gmail.com"
   }
 }
@@ -130,8 +130,8 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "app_hpa" {
       name        = kubernetes_deployment.app.metadata[0].name
     }
 
-    min_replicas = 1
-    max_replicas = 2
+    min_replicas = 2
+    max_replicas = 3
 
     metric {
       type = "Resource"
@@ -139,7 +139,7 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "app_hpa" {
         name = "cpu"
         target {
           type                = "Utilization"
-          average_utilization = 30
+          average_utilization = 40
         }
       }
     }
