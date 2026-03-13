@@ -2,7 +2,7 @@ name: Worker Video Pipeline
 
 on:
   repository_dispatch:
-    types: [deploy-worker-worker]
+    types: [deploy-video-worker]
 
 jobs:
   terraform:
