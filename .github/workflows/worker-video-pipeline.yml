@@ -1,0 +1,46 @@
+name: Worker Video Pipeline
+
+on:
+  repository_dispatch:
+    types: [deploy-video-worker]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_bucket_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
+      TF_VAR_bucket_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
+      TF_VAR_docker_image: ${{ github.event.client_payload.image }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+
+      - name: Terraform Init
+        working-directory: video-worker-terraform
+        run: terraform init
+
+      - name: Terraform Validate
+        working-directory: video-worker-terraform
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: video-worker-terraform
+        run: terraform plan -input=false
+
+      - name: Terraform Apply
+        working-directory: video-worker-terraform
+        run: terraform apply -auto-approve -input=false
+        
+      - name: Terraform Outputs
+        working-directory: video-worker-terraform
+        run: terraform output
