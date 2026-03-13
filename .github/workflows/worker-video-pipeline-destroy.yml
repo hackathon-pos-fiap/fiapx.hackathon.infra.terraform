@@ -1,0 +1,37 @@
+name: worker Video Terraform Destroy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_bucket_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
+      TF_VAR_bucket_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
+      TF_VAR_docker_image: montenegroforstude/fiapx-hackathon-worker:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.5
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Init Terraform
+        working-directory: video-worker-terraform
+        run: terraform init -input=false
+
+      - name: Destroy Infrastructure
+        working-directory: video-worker-terraform
+        run: terraform destroy -auto-approve -input=false
